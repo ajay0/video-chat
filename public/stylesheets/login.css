@@ -1,0 +1,13 @@
+.row-top-space {
+	margin-top: 40px;
+}
+
+.alert-msg {
+	display: none;
+	margin-top: 20px;
+	font-size: 14px;
+}
+
+button {
+	cursor: pointer;
+}

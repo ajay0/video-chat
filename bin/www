@@ -1,0 +1,7 @@
+"use strict";
+
+var httpServer = require('../app');
+
+httpServer.listen(3000, function() {
+  console.log('Listening on port: ' + httpServer.address().port);
+});

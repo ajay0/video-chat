@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>Video Chatting</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+		<link rel="stylesheet" href="/static/stylesheets/chat.css">
+	</head>
+
+	<body class="container">
+
+		<div class="row row-top-space">
+			<div class="col-8">
+				<h5 class="float-left">Welcome <%= username %></h4>
+			</div>
+			<div class="col-4">
+				<form>
+					<button class="btn btn-secondary float-right" type="button" id="logout-button">Log Out</button>
+				</form>
+			</div>
+		</div>
+
+		<hr>
+		
+		<div class="row justify-content-between row-top-space">
+			<div class="col-9 border border-top-0 border-bottom-0 border-left-0">
+				<div class="embed-responsive embed-responsive-16by9">
+					<video id="remote-video" class="embed-responsive-item" autoplay></video>
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="row justify-content-center">
+					<p id="active-users-title">Active Users</p>
+				</div>
+				<div class="row justify-content-center">	
+					<p><small class="text-muted">click a user's name to call them</small></p>
+				</div>
+				
+				<div class="row justify-content-center">
+					<div class="col-10 list-group" id="active-users-list">
+					</div>
+				</div>
+				<hr>
+				<div class="row row-top-space justify-content-center embed-responsive embed-responsive-16by9">
+					<video id="local-video" class="embed-responsive-item" muted autoplay></video>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row row-top-space">
+			<div class="col-3">
+				<button class="btn btn-outline-primary btn-block" id="local-video-toggle-button"><span class="smaller-button-text">Show/Hide Local Video</span></button>
+			</div>
+			<div class="col-2">
+				<button class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#call-logs-modal"><span class="smaller-button-text">Call Logs</span></button>
+			</div>
+			<div class="col-2">
+				<button class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#internal-logs-modal"><span class="smaller-button-text">Internal Logs</span></button>
+			</div>
+			<div class="col-2">
+				<button class="btn btn-danger btn-block" id="exit-call-button" type="button"><span class="smaller-button-text">Exit Call</span></button>
+			</div>
+			<div class="col-3">
+				<div id="current-call-info-alert">
+				</div>
+			</div>
+		</div>
+
+		<br>
+
+		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Modals ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+		<!-- Call Logs -->
+		<div class="modal fade" id="call-logs-modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">Call Logs</h5>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					
+					<div class="modal-body">
+						<ul class="list-group" id="call-logs-list">
+						</ul>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Internal Logs -->
+		<div class="modal fade" id="internal-logs-modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">Internal Logs</h5>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					
+					<div class="modal-body">
+						<ul class="list-group" id="internal-logs-list">
+						</ul>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Incoming Call Modal -->
+		<div class="modal fade" id="incoming-call-modal" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">Incoming Call</h5>
+					</div>
+					
+					<div class="modal-body">
+						<p><span id="incoming-call-username">test</span> wants to video chat with you</p>
+						<button class="btn btn-success" id="incoming-call-accept-button" data-dismiss="modal">Accept</button>
+						<button class="btn btn-danger" id="incoming-call-decline-button" data-dismiss="modal">Decline</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Template Modal -->
+		<div class="modal fade" id="template-modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">Alert</h5>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					
+					<div class="modal-body">
+						<div class="alert" id="template-modal-text">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+		<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+		<script src="/static/javascripts/chat.js"></script>
+
+	</body>
+</html>

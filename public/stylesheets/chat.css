@@ -1,0 +1,43 @@
+button {
+	cursor: pointer;
+}
+
+.row-top-space {
+	margin-top: 18px;
+}
+
+.list-group-item {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.smaller-button-text {
+	font-size: 14px;
+}
+
+#logout-button {
+	font-size: 14px;
+	line-height: 0.9;
+}
+
+#active-users-list {
+	overflow-y: auto;
+	height: 250px;
+}
+
+#exit-call-button {
+	display: none;
+}
+
+#active-users-title {
+	margin-bottom: 0px;
+}
+
+#incoming-call-username {
+	font-weight: bold;
+}
+
+#current-call-info-alert {
+	text-align: center;
+	line-height: 0.8;
+}
